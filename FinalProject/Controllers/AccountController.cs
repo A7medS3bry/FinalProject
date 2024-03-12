@@ -1,4 +1,5 @@
 ﻿using FinalProject.Domain.AccountModel;
+using FinalProject.Domain.DTO.AccountModel;
 using FinalProject.Domain.Models.ApplicationUserModel;
 using FinalProject.Domain.Models.RegisterNeeded;
 using FinalProject.Domain.Models.SkillAndCat;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace FinalProject.Controllers
