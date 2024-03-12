@@ -37,6 +37,7 @@ namespace FinalProject.Controllers
             }
 
             // Find the user by ID
+
             var user = await _userManager.FindByNameAsync(userId);
 
             var userProfileDto = new UserProfileDto
