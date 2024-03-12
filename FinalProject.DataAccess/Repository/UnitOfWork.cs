@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace FinalProject.DataAccess.Repository
 {
-    internal class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         ApplicationDbContext _context;
 
         public IJobPostRepository JobPostRepository { get; }
 
-        public UnitOfWork(ApplicationDbContext context, IJobPostRepository jobPostRepository)
+        public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
-            JobPostRepository = jobPostRepository;
+            JobPostRepository = new JobPostRepository(_context);
         }
 
         

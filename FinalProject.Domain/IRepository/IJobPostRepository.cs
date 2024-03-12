@@ -1,4 +1,5 @@
 ﻿using FinalProject.Domain.Models.JobPostAndContract;
+using FinalProject.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,8 @@ namespace FinalProject.Domain.IRepository
 {
     public interface IJobPostRepository : IRepository<JobPost>
     {
-        
-        void Update(JobPost entity);
+
+        void Update(int id, JobPostDto jobPostDto);
+        void Create(JobPostDto jobPostDto);
     }
 }

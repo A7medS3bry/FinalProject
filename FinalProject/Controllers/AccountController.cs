@@ -23,6 +23,83 @@ namespace FinalProject.Controllers
         {
             _userManager = userManager;
         }
+        //Profile User
+
+        [HttpGet("User-Account")]
+        [Authorize(Roles ="User")]
+        public async Task<IActionResult> UserProfile()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
+            {
+                return BadRequest("User ID not found in claims");
+            }
+
+            // Find the user by ID
+            var user = await _userManager.FindByNameAsync(userId);
+
+            var userProfileDto = new UserProfileDto
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Username = user.UserName,
+                Email = user.Email,
+                Country = user.CountryId
+            };
+
+            // Return the user profile DTO
+            return Ok(userProfileDto);
+        }
+        //Profile Freelancer
+        [HttpGet("Freelancer-Account")]
+        [Authorize(Roles = "Freelancer")]
+        public async Task<IActionResult> FreelancerProfile()
+        {
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
+            {
+                return BadRequest("User ID not found in claims");
+            }
+
+
+            //            var user = await _userManager.FindByNameAsync(userId);
+            var user = await _userManager.Users
+                .Include(u => u.UserSkills).Include(u=>u.UserLanguages)
+                .SingleOrDefaultAsync(u => u.UserName == userId);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var freelancerProfileDto = new FreelancerProfileDto
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Username = user.UserName,
+                Email = user.Email,
+                Country = user.CountryId,
+                SelectedLanguages = user.UserLanguages?.Select(lang => lang.LanguageValue).ToList(),
+                PhoneNumber = user.PhoneNumber,
+                Age = user.Age,
+                YourTitle = user.YourTitle,
+                Description = user.Description,
+                Education = user.Education,
+                Experience = user.Experience,
+                SelectedSkills = user.UserSkills?.Select(skill => skill.SkillId).ToList() ?? new List<int>(),
+                HourlyRate = user.HourlyRate,
+                ZIP = user.ZIP,
+                Address = user.Address,
+                PortfolioURl = user.PortfolioURl,
+                ProfilePicture = user.ProfilePicture
+            };
+
+            return Ok(freelancerProfileDto);
+        }
+
         //Password
         [HttpPost("ChangePassword")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordModel model)

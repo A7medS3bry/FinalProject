@@ -28,6 +28,10 @@ builder.Services.AddCors();
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
             opt.UseSqlServer(builder.Configuration.GetConnectionString("DefultConnection")));
 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
+
 builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
