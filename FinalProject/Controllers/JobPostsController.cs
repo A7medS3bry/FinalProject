@@ -5,12 +5,13 @@ using FinalProject.DataAccess.Data;
 using FinalProject.Domain.Models.JobPostAndContract;
 using FinalProject.Domain.IRepository;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace FinalProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-   // [Authorize (Roles = "User")]
+    [Authorize (Roles = "User")]
     public class JobPostsController  : ControllerBase
     {
 
@@ -70,21 +71,46 @@ namespace FinalProject.Controllers
         // create new jobPost
         // POST: api/JobPosts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //[HttpPost]
+        //public ActionResult<JobPost> PostJobPost(JobPostDto jobPostDto)
+        //{
+        // //   jobPostDto.UserId = User.FindFirst("uid").ToString();
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        _unitOfWork.JobPostRepository.Create(jobPostDto);
+        //      //  _unitOfWork.Save();
+        //        return Ok(jobPostDto);
+        //    }
+
+        //    return BadRequest();
+        //}
+
         [HttpPost]
         public ActionResult<JobPost> PostJobPost(JobPostDto jobPostDto)
         {
-         //   jobPostDto.UserId = User.FindFirst("uid").ToString();
-
             if (ModelState.IsValid)
             {
-                _unitOfWork.JobPostRepository.Create(jobPostDto);
-              //  _unitOfWork.Save();
-                return Ok(jobPostDto);
+                //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var userId = User.FindFirst("uid")?.Value;
+
+                if (userId != null)
+                {
+                    jobPostDto.UserId = userId;
+                    Console.WriteLine(jobPostDto.UserId);
+                    _unitOfWork.JobPostRepository.Create(userId, jobPostDto);
+                    _unitOfWork.Save(); 
+
+                    return Ok(jobPostDto);
+                }
+                else
+                {
+                    return BadRequest("User ID not found.");
+                }
             }
 
-            return BadRequest();
+            return BadRequest(ModelState);
         }
-
 
 
 

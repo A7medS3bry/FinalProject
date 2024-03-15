@@ -13,11 +13,11 @@ namespace FinalProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    //[Authorize (Roles ="Admin , User")]
     public class HomeController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        public HomeController(UserManager<ApplicationUser> userManager, IHomeRepository homeRepository)
+        public HomeController(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
         }
@@ -51,6 +51,8 @@ namespace FinalProject.Controllers
             return Ok(freelancer);
 
         }
+
+
         [HttpGet("Get-All-Freelancer-With-The-SameName")]
         public async Task<IActionResult> GetAllFreelancerWithTheSameName(string name)
         {

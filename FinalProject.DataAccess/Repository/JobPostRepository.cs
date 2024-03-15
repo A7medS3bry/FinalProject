@@ -1,7 +1,9 @@
 ﻿using FinalProject.DataAccess.Data;
 using FinalProject.Domain.IRepository;
+using FinalProject.Domain.Models.ApplicationUserModel;
 using FinalProject.Domain.Models.JobPostAndContract;
 using FinalProject.DTO;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +15,6 @@ namespace FinalProject.DataAccess.Repository
     public class JobPostRepository : Repository<JobPost>, IJobPostRepository
     {
         ApplicationDbContext _context;
-
         public JobPostRepository(ApplicationDbContext context) : base(context)
         {
             _context = context;
@@ -32,11 +33,31 @@ namespace FinalProject.DataAccess.Repository
             NewJobPost.DurationTime = jobPostDto.DurationTime;
         }
 
-        public void Create(JobPostDto jobPostDto)
-        {
+        //public void Create(JobPostDto jobPostDto)
+        //{
 
+        //    JobPost jobPost = new JobPost();
+
+
+
+        //    jobPost.Title = jobPostDto.Title;
+        //    jobPost.Description = jobPostDto.Description;
+        //    jobPost.Price = jobPostDto.Price;
+        //    jobPost.DurationTime = jobPostDto.DurationTime;
+        //    jobPost.Status = "Uncompleted";
+        //    jobPost.CategoryId = 3;
+        //    jobPost.UserId = "be258344-4614-4f6c-b431-e1a161b2bd26";
+        //    _context.JobPosts.Add(jobPost);
+        //    _context.SaveChanges();
+
+        //}
+
+        public void Create(string userId, JobPostDto jobPostDto)
+        {
             JobPost jobPost = new JobPost();
 
+            // Use the provided userId instead of accessing User object
+            jobPost.UserId = userId;
 
             jobPost.Title = jobPostDto.Title;
             jobPost.Description = jobPostDto.Description;
@@ -44,10 +65,10 @@ namespace FinalProject.DataAccess.Repository
             jobPost.DurationTime = jobPostDto.DurationTime;
             jobPost.Status = "Uncompleted";
             jobPost.CategoryId = 3;
-            jobPost.UserId = "be258344-4614-4f6c-b431-e1a161b2bd26";
+
             _context.JobPosts.Add(jobPost);
             _context.SaveChanges();
-
         }
+
     }
 }
