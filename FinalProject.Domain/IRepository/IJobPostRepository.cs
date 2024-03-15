@@ -1,4 +1,5 @@
-﻿using FinalProject.Domain.Models.JobPostAndContract;
+﻿using FinalProject.Domain.DTO.JobPost;
+using FinalProject.Domain.Models.JobPostAndContract;
 using FinalProject.DTO;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace FinalProject.Domain.IRepository
 {
     public interface IJobPostRepository : IRepository<JobPost>
     {
-        public List<JobPostDto> GetAllJobPostsByUserId(string userId);
+        public List<GetMyJobPostDto> GetAllJobPostsByUserId(string userId);
         void Update(int id, JobPostDto jobPostDto);
         //void Create(JobPostDto jobPostDto);
         void Create(JobPostDto jobPostDto);

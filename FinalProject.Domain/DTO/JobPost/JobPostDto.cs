@@ -18,6 +18,8 @@ namespace FinalProject.DTO
         [Required]
         public decimal Price { get; set; }
         public DateTime? DurationTime { get; set; }
+        public int CategoryId { get; set; }
+        public List<int>? JobPostSkill { get; set; }
         public string ?UserId { get; set; }
     }
 }

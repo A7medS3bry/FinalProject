@@ -1,9 +1,11 @@
 ﻿using FinalProject.DataAccess.Data;
+using FinalProject.Domain.DTO.JobPost;
 using FinalProject.Domain.IRepository;
 using FinalProject.Domain.Models.ApplicationUserModel;
 using FinalProject.Domain.Models.JobPostAndContract;
 using FinalProject.DTO;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,16 +23,22 @@ namespace FinalProject.DataAccess.Repository
 
         }
 
-        public List<JobPostDto> GetAllJobPostsByUserId(string userId)
+        public List<GetMyJobPostDto> GetAllJobPostsByUserId(string userId)
         {
-            var jobPosts = _context.JobPosts.Where(jp => jp.UserId == userId).ToList();
+            var jobPosts = _context.JobPosts
+                .Include(jp => jp.JobPostSkill)
+                    .ThenInclude(u=>u.Skill)
+                .Include(u=>u.Category)
+                .Where(jp => jp.UserId == userId).ToList();
 
-            var jobPostDtos = jobPosts.Select(jp => new JobPostDto
+            var jobPostDtos = jobPosts.Select(jp => new GetMyJobPostDto
             {
                 Title = jp.Title,
                 Description = jp.Description,
+                CategoryName = jp.Category.Name,
                 Price = jp.Price,
                 DurationTime = jp.DurationTime,
+                JobPostSkill = jp.JobPostSkill.Select(skill => skill.Skill.Name).ToList(),
                 UserId = jp.UserId,
             }).ToList();
 
@@ -78,7 +86,8 @@ namespace FinalProject.DataAccess.Repository
             jobPost.Price = jobPostDto.Price;
             jobPost.DurationTime = jobPostDto.DurationTime;
             jobPost.Status = "Uncompleted";
-            jobPost.CategoryId = 3;
+            jobPost.JobPostSkill = jobPostDto.JobPostSkill.Select(skillId => new JobPostSkill { SkillId = skillId }).ToList();
+            jobPost.CategoryId = jobPostDto.CategoryId;
 
             _context.JobPosts.Add(jobPost);
             _context.SaveChanges();

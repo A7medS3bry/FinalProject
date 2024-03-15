@@ -6,6 +6,7 @@ using FinalProject.Domain.Models.JobPostAndContract;
 using FinalProject.Domain.IRepository;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using FinalProject.Domain.DTO.JobPost;
 
 namespace FinalProject.Controllers
 {
@@ -25,12 +26,12 @@ namespace FinalProject.Controllers
         }
 
         [HttpGet("Get-All-My-Project-Post")]
-        public List<JobPostDto> GetJMyobPosts()
+        public List<GetMyJobPostDto> GetJMyobPosts()
         {
             var userId = User.FindFirst("uid")?.Value;
             
             if (_unitOfWork.JobPostRepository.GetAllJobPostsByUserId(userId) == null)
-                return new List<JobPostDto>();
+                return new List<GetMyJobPostDto>();
             return _unitOfWork.JobPostRepository.GetAllJobPostsByUserId(userId).ToList();
         }
 
