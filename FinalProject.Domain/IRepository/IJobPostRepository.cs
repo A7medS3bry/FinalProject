@@ -10,7 +10,7 @@ namespace FinalProject.Domain.IRepository
 {
     public interface IJobPostRepository : IRepository<JobPost>
     {
-
+        public List<JobPostDto> GetAllJobPostsByUserId(string userId);
         void Update(int id, JobPostDto jobPostDto);
         //void Create(JobPostDto jobPostDto);
         void Create(JobPostDto jobPostDto);

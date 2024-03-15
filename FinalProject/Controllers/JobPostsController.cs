@@ -11,7 +11,8 @@ namespace FinalProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize (Roles = "User")]
+    [Authorize(Roles = "User")]
+    //[Authorize (Roles = "User , Freelancer")]
     public class JobPostsController  : ControllerBase
     {
 
@@ -23,10 +24,19 @@ namespace FinalProject.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        [HttpGet("Get-All-My-Project-Post")]
+        public List<JobPostDto> GetJMyobPosts()
+        {
+            var userId = User.FindFirst("uid")?.Value;
+            
+            if (_unitOfWork.JobPostRepository.GetAllJobPostsByUserId(userId) == null)
+                return new List<JobPostDto>();
+            return _unitOfWork.JobPostRepository.GetAllJobPostsByUserId(userId).ToList();
+        }
 
         // get all job posts
         // GET: api/JobPosts
-        [HttpGet]
+        [HttpGet("Get-All")]
         public IEnumerable<JobPost> GetJobPosts()
         {
             if (_unitOfWork.JobPostRepository.GetAll() == null)

@@ -21,7 +21,21 @@ namespace FinalProject.DataAccess.Repository
 
         }
 
+        public List<JobPostDto> GetAllJobPostsByUserId(string userId)
+        {
+            var jobPosts = _context.JobPosts.Where(jp => jp.UserId == userId).ToList();
 
+            var jobPostDtos = jobPosts.Select(jp => new JobPostDto
+            {
+                Title = jp.Title,
+                Description = jp.Description,
+                Price = jp.Price,
+                DurationTime = jp.DurationTime,
+                UserId = jp.UserId,
+            }).ToList();
+
+            return jobPostDtos;
+        }
         public void Update(int id, JobPostDto jobPostDto)
         {
             // jobPost always exist
