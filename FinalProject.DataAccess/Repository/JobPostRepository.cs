@@ -52,12 +52,12 @@ namespace FinalProject.DataAccess.Repository
 
         //}
 
-        public void Create(string userId, JobPostDto jobPostDto)
+        public void Create(JobPostDto jobPostDto)
         {
             JobPost jobPost = new JobPost();
 
             // Use the provided userId instead of accessing User object
-            jobPost.UserId = userId;
+            jobPost.UserId = jobPostDto.UserId;
 
             jobPost.Title = jobPostDto.Title;
             jobPost.Description = jobPostDto.Description;

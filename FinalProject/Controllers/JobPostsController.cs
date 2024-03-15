@@ -98,7 +98,7 @@ namespace FinalProject.Controllers
                 {
                     jobPostDto.UserId = userId;
                     Console.WriteLine(jobPostDto.UserId);
-                    _unitOfWork.JobPostRepository.Create(userId, jobPostDto);
+                    _unitOfWork.JobPostRepository.Create(jobPostDto);
                     _unitOfWork.Save(); 
 
                     return Ok(jobPostDto);

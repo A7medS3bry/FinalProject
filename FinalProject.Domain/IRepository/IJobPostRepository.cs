@@ -13,7 +13,7 @@ namespace FinalProject.Domain.IRepository
 
         void Update(int id, JobPostDto jobPostDto);
         //void Create(JobPostDto jobPostDto);
-        void Create(string userId, JobPostDto jobPostDto);
+        void Create(JobPostDto jobPostDto);
 
     }
 }
