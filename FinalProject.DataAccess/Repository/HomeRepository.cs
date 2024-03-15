@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FinalProject.DataAccess.Data;
 using FinalProject.Domain.IRepository;
+using FinalProject.Domain.Models.ApplicationUserModel;
 using FinalProject.Domain.Models.JobPostAndContract;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,5 +41,16 @@ namespace FinalProject.DataAccess.Repository
             return jobposts;
         }
 
+        public ApplicationUser GetFreelancerByID(string Fid)
+        {
+            var Freelancer = _context.Users
+                //.Include(i => i.UserLanguages)
+                //    .ThenInclude(i => i.Language)
+                //.Include(i => i.Country)
+                //.Include(i => i.UserSkills)
+                //    .ThenInclude(i => i.Skill)
+                .FirstOrDefault(u => u.Id == Fid);
+            return Freelancer;
+        }
     }
 }

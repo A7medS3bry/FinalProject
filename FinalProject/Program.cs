@@ -73,6 +73,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.Configure<DataProtectionTokenProviderOptions>(opt => opt.TokenLifespan = TimeSpan.FromMinutes(60));
 
 builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddTransient<IHomeRepository, HomeRepository>();
 //Email Configuration
 var emailConfig = builder.Configuration
     .GetSection("EmailConfiguration")

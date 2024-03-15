@@ -1,5 +1,6 @@
 ﻿using FinalProject.Domain.DTO.AccountModel;
 using FinalProject.Domain.DTO.HomeModel;
+using FinalProject.Domain.IRepository;
 using FinalProject.Domain.Models.ApplicationUserModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,11 +17,40 @@ namespace FinalProject.Controllers
     public class HomeController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        public HomeController(UserManager<ApplicationUser> userManager)
+        public HomeController(UserManager<ApplicationUser> userManager, IHomeRepository homeRepository)
         {
             _userManager = userManager;
         }
 
+        [HttpGet("Get-All-Freelancer-By-ID")]
+        public async Task<IActionResult> GetAllFreelancerByID(string Fid)
+        {
+            var user = _userManager.Users
+                .Include(i => i.UserLanguages)
+                    .ThenInclude(i => i.Language)
+                .Include(i => i.Country)
+                .Include(i => i.UserSkills)
+                    .ThenInclude(i => i.Skill)
+                 .FirstOrDefault(u => u.Id == Fid);
+
+            var freelancer = new GetFreelancer
+            {
+                id = user.Id,
+                FullName = user.FirstName + " " + user.LastName,
+                YourTitle = user.YourTitle,
+                Description = user.Description,
+                SelectedLanguages = user.UserLanguages?.Select(lang => lang.Language.Value).ToList(),
+                SelectedSkills = user.UserSkills?.Select(skill => skill.Skill.Name).ToList(),
+                PortfolioURl = user.PortfolioURl,
+                ProfilePicture = user.ProfilePicture,
+                Address = user.Address,
+                Country = user.Country.Nicename,
+                HourlyRate = user.HourlyRate
+            };
+
+            return Ok(freelancer);
+
+        }
         [HttpGet("Get-All-Freelancer-With-The-SameName")]
         public async Task<IActionResult> GetAllFreelancerWithTheSameName(string name)
         {
@@ -29,39 +59,44 @@ namespace FinalProject.Controllers
 
             var users = await _userManager.Users
                 .Where(u => (u.FirstName.ToLower() + " " + u.LastName.ToLower()).Contains(lowercaseName))
-                .Include(u => u.UserSkills)
-                .Include(u => u.UserLanguages)
                 .ToListAsync();
 
             if (users == null || !users.Any())
             {
                 return NotFound("No users found with the specified name.");
             }
+            var FreeLancersList = new List<GetAllFreelancer>();
+
             foreach (var user in users)
             {
-                var isFreelancer = await _userManager.IsInRoleAsync(user, "Freelancer");
+                var isFreeLancer = await _userManager.IsInRoleAsync(user, "Freelancer");
+                var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
 
-                if (user.Age !=null || user.YourTitle != null || user.Description != null || user.ZIP != null)
+                if (user.Age !=null && user.YourTitle != null 
+                    && user.Description != null && user.ZIP != null 
+                    && isFreeLancer == true && isAdmin == false )
                 {
-                    var freelancers = users.Select(user => new GetFreelancer
+                    var freelancer = new GetAllFreelancer
                     {
-                        FirstName = user.FirstName,
-                        LastName = user.LastName,
+                        id = user.Id,
+                        FullName = user.FirstName + " " + user.LastName,
                         YourTitle = user.YourTitle,
                         Description = user.Description,
-                        SelectedLanguages = user.UserLanguages?.Select(lang => lang.LanguageValue).ToList(),
-                        SelectedSkills = user.UserSkills?.Select(skill => skill.SkillId).ToList(),
-                        PortfolioURl = user.PortfolioURl,
                         ProfilePicture = user.ProfilePicture,
-                        Address = user.Address,
-                        Country = user.CountryId,
                         HourlyRate = user.HourlyRate
-                    }).ToList();
+                    };
 
-                    return Ok(freelancers);
+                    FreeLancersList.Add(freelancer);
                 }
             }
+            if(FreeLancersList.Any())
+            {
+                return Ok(FreeLancersList);
+            }
+            else
+            {
             return NotFound("No users found with the specified name.");
+            }
         }
     }
 }
