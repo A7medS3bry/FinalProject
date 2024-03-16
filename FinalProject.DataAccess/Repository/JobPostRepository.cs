@@ -22,7 +22,27 @@ namespace FinalProject.DataAccess.Repository
             _context = context;
 
         }
+        public List<AllJopPostDto> GetAllByName(string tilte)
+        {
+            var lower = tilte.ToLower();
+            var AllJopPost = _context.JobPosts
+                .Include(u=>u.Category)
+                .Include(u=>u.ApplicationUser)
+                .Where(u => u.Title.ToLower().Contains(lower)).ToList();
+            var AllJopPostDto = AllJopPost.Select(jp => new AllJopPostDto
+            {
+                Title = jp.Title,
+                Description = jp.Description,
+                Price = jp.Price,
+                DurationTime = jp.DurationTime,
+                CategoryName = jp.Category.Name,
+                Status = jp.Status,
+                FullNameForUser = jp.ApplicationUser.FirstName + " " + jp.ApplicationUser.LastName
+            }).ToList();
 
+            return AllJopPostDto;
+
+        }
         public List<GetMyJobPostDto> GetAllJobPostsByUserId(string userId)
         {
             var jobPosts = _context.JobPosts

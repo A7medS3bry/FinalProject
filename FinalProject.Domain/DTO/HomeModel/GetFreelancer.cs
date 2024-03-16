@@ -8,7 +8,6 @@ namespace FinalProject.Domain.DTO.HomeModel
 {
     public class GetFreelancer
     {
-
         public string id { get; set; }
         public string FullName { get; set; }
         public string? YourTitle { get; set; }

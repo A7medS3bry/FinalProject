@@ -9,27 +9,40 @@ namespace FinalProject.Identity.DtoUserAndFreelancerRegister
         public string FirstName { get; set; }
         [Required, MinLength(2), MaxLength(25)]
         public string LastName { get; set; }
-        [Required, MinLength(2), MaxLength(25)]
-        public string Username { get; set; }
+
+        [Required, EmailAddress]
         public string Email { get; set; }
+        [Required]
         public string Password { get; set; }
-
-        [Display(Name = "Languages")]
+        [Compare(nameof(Password)) , Required]
+        public string ConfirmPassword { get; set; }
+        [Required]
         public List<string>? SelectedLanguages { get; set; }
+        [Required]
         public string? PhoneNumber { get; set; }
+        [Required , Range(18,100)]
         public int? Age { get; set; }
+        [Required]
         public string? YourTitle { get; set; }
+        [Required]
         public string? Description { get; set; }
+        [MaxLength(100)]
         public string? Education { get; set; }
+        [MaxLength(1000)]
         public string? Experience { get; set; }
+        [Range(0, 10000)]
         public decimal? HourlyRate { get; set; }
-
-        [DisplayName("Your Skills")]
+        [Required]
         public virtual List<int>? SelectedSkills { get; set; }
+        [Required]
         public int Country { get; set; }
+        [Required]
         public int? ZIP { get; set; }
+        [Required, MaxLength(100)]
         public string? Address { get; set; }
+        [Url]
         public string? PortfolioURl { get; set; }
+        [Required, MaxLength(50)]
         public string ProfilePicture { get; set; }
     }
 }

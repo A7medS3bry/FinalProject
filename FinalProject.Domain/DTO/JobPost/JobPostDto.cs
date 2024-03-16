@@ -4,8 +4,6 @@ namespace FinalProject.DTO
 {
     public class JobPostDto 
     {
-
-
         [MaxLength(250)]
         [MinLength(2)]
         [Required]

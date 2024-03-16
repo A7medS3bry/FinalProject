@@ -39,11 +39,11 @@ namespace FinalProject.Identity.Services
                 authModel.Message = "Email is already registered!";
                 return authModel;
             }
-            if (await _userManager.FindByNameAsync(model.Username) != null)
-            {
-                authModel.Message = "Username is already registered!";
-                return authModel;
-            }
+            //if (await _userManager.FindByNameAsync(model.Username) != null)
+            //{
+            //    authModel.Message = "Username is already registered!";
+            //    return authModel;
+            //}
             if (model.ProfilePicture != null)
             {
 
@@ -141,7 +141,7 @@ namespace FinalProject.Identity.Services
                 }
                 var user = new ApplicationUser
                 {
-                    UserName = model.Username,
+                    UserName = UserNameGenrator(model.FirstName,model.LastName),
                     Email = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
@@ -184,7 +184,7 @@ namespace FinalProject.Identity.Services
                     IsAuthenticated = true,
                     Roles = (List<string>)await _userManager.GetRolesAsync(user),
                     Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
-                    Username = user.UserName
+                    Username = UserNameGenrator(model.FirstName, model.LastName)
                 };
             }
             else
@@ -203,11 +203,6 @@ namespace FinalProject.Identity.Services
                 return authModel;
             }
 
-            if (await _userManager.FindByNameAsync(model.Username) != null)
-            {
-                authModel.Message = "Username is already registered!";
-                return authModel;
-            }
             //Country
             if (model.Country == null)
             {
@@ -223,7 +218,7 @@ namespace FinalProject.Identity.Services
 
             var user = new ApplicationUser
             {
-                UserName = model.Username,
+                UserName = UserNameGenrator(model.FirstName, model.LastName),
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
@@ -253,7 +248,7 @@ namespace FinalProject.Identity.Services
                 IsAuthenticated = true,
                 Roles = (List<string>)await _userManager.GetRolesAsync(user),
                 Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
-                Username = user.UserName
+                Username = UserNameGenrator(model.FirstName, model.LastName),
             };
 
         }
@@ -326,6 +321,20 @@ namespace FinalProject.Identity.Services
             var result = await _userManager.AddToRoleAsync(user, model.Role);
 
             return result.Succeeded ? string.Empty : "Something went wrong";
+        }
+
+        static string UserNameGenrator(string fname, string lname)
+        {
+
+            string year = DateTime.Now.Year.ToString();
+            string month = DateTime.Now.Month.ToString();
+            string day = DateTime.Now.Day.ToString();
+            string hour = DateTime.Now.Hour.ToString();
+            string minute = DateTime.Now.Minute.ToString();
+            string second = DateTime.Now.Second.ToString();
+
+            string result = fname[0].ToString().ToUpper() + lname[0].ToString().ToUpper() + "_" + day + month + year[2] + year[3] + hour + minute + second;
+            return result;
         }
 
     }

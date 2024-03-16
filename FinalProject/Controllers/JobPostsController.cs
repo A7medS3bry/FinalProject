@@ -12,7 +12,7 @@ namespace FinalProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "User")]
+    //[Authorize(Roles = "User")]
     //[Authorize (Roles = "User , Freelancer")]
     public class JobPostsController  : ControllerBase
     {
@@ -33,6 +33,14 @@ namespace FinalProject.Controllers
             if (_unitOfWork.JobPostRepository.GetAllJobPostsByUserId(userId) == null)
                 return new List<GetMyJobPostDto>();
             return _unitOfWork.JobPostRepository.GetAllJobPostsByUserId(userId).ToList();
+        }
+
+        [HttpGet("Get-All-Project-With-Same-Title")]
+        public List<AllJopPostDto> GetJMyobPostsWithSameName(string tilte)
+        {
+            if (_unitOfWork.JobPostRepository.GetAllByName(tilte) == null)
+                return new List<AllJopPostDto>();
+            return _unitOfWork.JobPostRepository.GetAllByName(tilte);
         }
 
         // get all job posts

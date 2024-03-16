@@ -13,6 +13,8 @@ namespace FinalProject.Domain.IRepository
     {
         public List<GetMyJobPostDto> GetAllJobPostsByUserId(string userId);
         void Update(int id, JobPostDto jobPostDto);
+        public List<AllJopPostDto> GetAllByName(string name);
+
         //void Create(JobPostDto jobPostDto);
         void Create(JobPostDto jobPostDto);
 
