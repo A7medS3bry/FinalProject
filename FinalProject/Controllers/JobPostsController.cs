@@ -56,16 +56,16 @@ namespace FinalProject.Controllers
 
         // get jobPost by id
         // GET: api/JobPosts/5
-        [HttpGet("{id}")]
-        public ActionResult<JobPost> GetJobPost(int id)
+        [HttpGet("Get-job-post-by-Id")]
+        public IActionResult GetJobPost(int id)
         {
-            JobPost jobPost = _unitOfWork.JobPostRepository.GetByID(id);
+            var jobPost = _unitOfWork.JobPostRepository.GetjopPostWithId(id);
             if (jobPost == null)
             {
                 return NotFound();
             }
 
-            return jobPost;
+            return Ok(jobPost);
         }
 
 

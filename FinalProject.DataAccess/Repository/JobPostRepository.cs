@@ -22,6 +22,26 @@ namespace FinalProject.DataAccess.Repository
             _context = context;
 
         }
+        public GetMyJobPostDto GetjopPostWithId(int id)
+        {
+            var jopPost = _context.JobPosts
+                .Include(u => u.Category)
+                .Include(u => u.ApplicationUser)
+                .Include(u => u.JobPostSkill).ThenInclude(u => u.Skill)
+                .FirstOrDefault(u => u.Id == id);
+            var jopPostDto = new GetMyJobPostDto
+            {
+                Title = jopPost.Title,
+                Description = jopPost.Description,
+                Price = jopPost.Price,
+                DurationTime = jopPost.DurationTime,
+                JobPostSkill = jopPost.JobPostSkill.Select(skill => skill.Skill.Name).ToList(),
+                CategoryName = jopPost.Category.Name,
+                Status = jopPost.Status,
+                UserFullName = jopPost.ApplicationUser.FirstName + " " + jopPost.ApplicationUser.LastName
+            };
+            return jopPostDto;
+        }
         public List<AllJopPostDto> GetAllByName(string tilte)
         {
             var lower = tilte.ToLower();
@@ -59,7 +79,7 @@ namespace FinalProject.DataAccess.Repository
                 Price = jp.Price,
                 DurationTime = jp.DurationTime,
                 JobPostSkill = jp.JobPostSkill.Select(skill => skill.Skill.Name).ToList(),
-                UserId = jp.UserId,
+
             }).ToList();
 
             return jobPostDtos;
@@ -79,9 +99,6 @@ namespace FinalProject.DataAccess.Repository
         //{
 
         //    JobPost jobPost = new JobPost();
-
-
-
         //    jobPost.Title = jobPostDto.Title;
         //    jobPost.Description = jobPostDto.Description;
         //    jobPost.Price = jobPostDto.Price;
