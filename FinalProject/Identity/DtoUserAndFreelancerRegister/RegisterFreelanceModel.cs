@@ -19,6 +19,9 @@ namespace FinalProject.Identity.DtoUserAndFreelancerRegister
         [Required]
         public List<string>? SelectedLanguages { get; set; }
         [Required]
+        public string? Phonecode { get; set; }
+
+        [Required]
         public string? PhoneNumber { get; set; }
         [Required , Range(18,100)]
         public int? Age { get; set; }
@@ -33,14 +36,20 @@ namespace FinalProject.Identity.DtoUserAndFreelancerRegister
         [Range(0, 10000)]
         public decimal? HourlyRate { get; set; }
         [Required]
+        
         public virtual List<int>? SelectedSkills { get; set; }
+        /// <summary>
+        /// ////////
+        /// </summary>
         [Required]
-        public int Country { get; set; }
+        public string Country { get; set; }
         [Required]
-        public int? ZIP { get; set; }
+        public string State { get; set; }
         [Required, MaxLength(100)]
-        public string? Address { get; set; }
-        [Url]
+        public string Address { get; set; }
+
+        [Required]
+        public int ZIP { get; set; }
         public string? PortfolioURl { get; set; }
         [Required, MaxLength(50)]
         public string ProfilePicture { get; set; }

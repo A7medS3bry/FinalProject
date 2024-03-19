@@ -28,7 +28,6 @@ namespace FinalProject.Controllers
             var user = _userManager.Users
                 .Include(i => i.UserLanguages)
                     .ThenInclude(i => i.Language)
-                .Include(i => i.Country)
                 .Include(i => i.UserSkills)
                     .ThenInclude(i => i.Skill)
                  .FirstOrDefault(u => u.Id == Fid);
@@ -43,8 +42,8 @@ namespace FinalProject.Controllers
                 SelectedSkills = user.UserSkills?.Select(skill => skill.Skill.Name).ToList(),
                 PortfolioURl = user.PortfolioURl,
                 ProfilePicture = user.ProfilePicture,
-                Address = user.Address,
-                Country = user.Country.Nicename,
+                Address =  user.State + " " + user.Address,
+                Country = user.Country,
                 HourlyRate = user.HourlyRate
             };
 

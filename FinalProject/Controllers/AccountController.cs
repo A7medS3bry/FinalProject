@@ -46,7 +46,7 @@ namespace FinalProject.Controllers
                 LastName = user.LastName,
                 Username = user.UserName,
                 Email = user.Email,
-                Country = user.CountryId
+                Country = user.Country
             };
 
             // Return the user profile DTO
@@ -68,7 +68,10 @@ namespace FinalProject.Controllers
 
             //            var user = await _userManager.FindByNameAsync(userId);
             var user = await _userManager.Users
-                .Include(u => u.UserSkills).Include(u=>u.UserLanguages)
+                .Include(u => u.UserSkills)
+                    .ThenInclude(u=>u.Skill)
+                .Include(u=>u.UserLanguages)
+                    .ThenInclude(u=>u.Language)
                 .SingleOrDefaultAsync(u => u.UserName == userId);
 
             if (user == null)
@@ -82,18 +85,17 @@ namespace FinalProject.Controllers
                 LastName = user.LastName,
                 Username = user.UserName,
                 Email = user.Email,
-                Country = user.CountryId,
-                SelectedLanguages = user.UserLanguages?.Select(lang => lang.LanguageValue).ToList(),
-                PhoneNumber = user.PhoneNumber,
+                SelectedLanguages = user.UserLanguages?.Select(lang => lang.Language.Value).ToList(),
+                PhoneNumber = user.CodePhone +" "+ user.PhoneNumber,
                 Age = user.Age,
                 YourTitle = user.YourTitle,
                 Description = user.Description,
                 Education = user.Education,
                 Experience = user.Experience,
-                SelectedSkills = user.UserSkills?.Select(skill => skill.SkillId).ToList() ?? new List<int>(),
+                SelectedSkills = user.UserSkills?.Select(skill => skill.Skill.Name).ToList() ?? new List<string>(),
                 HourlyRate = user.HourlyRate,
                 ZIP = user.ZIP,
-                Address = user.Address,
+                Address = user.Country +" "+ user.State+" "+ user.Address,
                 PortfolioURl = user.PortfolioURl,
                 ProfilePicture = user.ProfilePicture
             };
@@ -290,7 +292,7 @@ namespace FinalProject.Controllers
             var user = await _userManager.FindByIdAsync(userIdClaim.Value);
 
             // Update the profile picture URL
-            user.CountryId = model.CountryId;
+            user.Country = model.Country;
 
             // Save the changes to the database
             var updateResult = await _userManager.UpdateAsync(user);
@@ -322,7 +324,6 @@ namespace FinalProject.Controllers
             }
 
             var user = await _userManager.FindByIdAsync(userIdClaim.Value);
-
 
             user.UserSkills = model.SelectedSkills
                 .Select(skillId => new UserSkill { SkillId = skillId })

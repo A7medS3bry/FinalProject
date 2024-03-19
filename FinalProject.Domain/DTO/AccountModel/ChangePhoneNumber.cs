@@ -2,7 +2,7 @@
 {
     public class ChangePhoneNumber
     {
-        public int CodePhone { get; set; }
+        public string CodePhone { get; set; }
         public string PhoneNumber { get; set; }
     }
 }

@@ -172,7 +172,10 @@ namespace FinalProject.Controllers
                 var ForgotPasswordlink = Url.Action(nameof(ResetPassword), "Auth", new { token, email = user.Email }, Request.Scheme);
                 var message = new UserMangmentService.Models.Message(new string[] { user.Email! }, "Reset Password", ForgotPasswordlink!);
                 _emailService.SendEmail(message);
-                return Ok($"Link For Reset Password Sended To Your Email: {user.Email}");
+                var resetPasswordModel = new ResetPasswordModel { Token = token, Email = user.Email };
+
+                return Ok(resetPasswordModel);
+                //return Ok($"Link For Reset Password Sended To Your Email: {user.Email}");
             }
             else
             {
@@ -187,7 +190,6 @@ namespace FinalProject.Controllers
 
             return Ok(model);
         }
-
 
         [HttpPost]
         [Route("Reset-Password")]
@@ -225,7 +227,12 @@ namespace FinalProject.Controllers
                 var resetPasswordLink = Url.Action(nameof(ResetPassword), "Auth", new { token, email = user.Email }, Request.Scheme);
                 var message = new UserMangmentService.Models.Message(new string[] { user.Email! }, "Reset Password", resetPasswordLink!);
                 _emailService.SendEmail(message);
-                return Ok($"Link For Reset Password Sended To Your Email: {user.Email}");
+
+                var resetPasswordModel = new ResetPasswordModel { Token = token, Email = user.Email };
+
+                return Ok(resetPasswordModel);
+
+                //return Ok($"Link For Reset Password Sended To Your Email: {user.Email}");
             }
             else
             {

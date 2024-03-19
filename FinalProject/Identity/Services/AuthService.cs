@@ -48,17 +48,17 @@ namespace FinalProject.Identity.Services
             {
 
                 //Country
-                if (model.Country == null)
-                {
-                    authModel.Message = "Enter Your Counrty Name.";
-                    return authModel;
-                }
-                var country = _context.Countries.FirstOrDefault(c => c.Id == model.Country);
-                if (country == null)
-                {
-                    authModel.Message = "Invalid Country Name.";
-                    return authModel;
-                }
+                //if (model.Country == null)
+                //{
+                //    authModel.Message = "Enter Your Counrty Name.";
+                //    return authModel;
+                //}
+                //var country = _context.Countries.FirstOrDefault(c => c.Id == model.Country);
+                //if (country == null)
+                //{
+                //    authModel.Message = "Invalid Country Name.";
+                //    return authModel;
+                //}
 
 
                 //Langauge
@@ -108,6 +108,11 @@ namespace FinalProject.Identity.Services
                     authModel.Message = $"Address Required";
                     return authModel;
                 }
+                if (model.Phonecode == null)
+                {
+                    authModel.Message = $"Phonecode Required";
+                    return authModel;
+                }
                 if (model.PhoneNumber == null)
                 {
                     authModel.Message = $"PhoneNumber Required";
@@ -145,10 +150,10 @@ namespace FinalProject.Identity.Services
                     Email = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    CountryId = model.Country,
-                    Country = country,
+                    Country = model.Country ,
+                    State = model.State,
                     Address = model.Address,
-                    CodePhone = country.Phonecode,
+                    CodePhone = model.Phonecode,
                     PhoneNumber = model.PhoneNumber,
                     Age = model.Age,
                     UserLanguages = UserLanguages,
@@ -179,7 +184,7 @@ namespace FinalProject.Identity.Services
                 return new AuthModel
                 {
                     Email = user.Email,
-                    Country = user.CountryId,
+                    Country = user.Country,
                     ExpiresOn = jwtSecurityToken.ValidTo,
                     IsAuthenticated = true,
                     Roles = (List<string>)await _userManager.GetRolesAsync(user),
@@ -204,17 +209,17 @@ namespace FinalProject.Identity.Services
             }
 
             //Country
-            if (model.Country == null)
-            {
-                authModel.Message = "Enter Your Counrty Name.";
-                return authModel;
-            }
-            var country = _context.Countries.FirstOrDefault(c => c.Id == model.Country);
-            if (country == null)
-            {
-                authModel.Message = "Invalid Country Name.";
-                return authModel;
-            }
+            //if (model.Country == null)
+            //{
+            //    authModel.Message = "Enter Your Counrty Name.";
+            //    return authModel;
+            //}
+            //var country = _context.Countries.FirstOrDefault(c => c.Id == model.Country);
+            //if (country == null)
+            //{
+            //    authModel.Message = "Invalid Country Name.";
+            //    return authModel;
+            //}
 
             var user = new ApplicationUser
             {
@@ -222,8 +227,7 @@ namespace FinalProject.Identity.Services
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                CountryId = model.Country,
-                Country = country,
+                Country = model.Country,
                 RegistrationDate = DateTime.Now,
             };
 
@@ -243,7 +247,7 @@ namespace FinalProject.Identity.Services
             return new AuthModel
             {
                 Email = user.Email,
-                Country = user.CountryId,
+                Country = user.Country,
                 ExpiresOn = jwtSecurityToken.ValidTo,
                 IsAuthenticated = true,
                 Roles = (List<string>)await _userManager.GetRolesAsync(user),

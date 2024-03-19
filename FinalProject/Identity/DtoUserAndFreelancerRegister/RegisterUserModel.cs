@@ -15,6 +15,7 @@ namespace FinalProject.Identity.DtoUserAndFreelancerRegister
         [Required , Compare(nameof(Password))]
         public string ConfirmPassword { get; set; }
         [Required]
-        public int Country { get; set; }
+        public string Country { get; set; }
+
     }
 }

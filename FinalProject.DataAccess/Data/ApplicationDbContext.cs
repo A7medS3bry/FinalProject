@@ -156,14 +156,13 @@ namespace FinalProject.DataAccess.Data
                 .HasForeignKey(f => f.JobpostId);
             #endregion
         }
-        public DbSet<Country> Countries { get; set; }
+        //public DbSet<Country> Countries { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<ApplicationUserLanguage> ApplicationUserLanguages { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<JobPost> JobPosts { get; set; }
         public DbSet<Protfolio> Protfolios { get; set; }
-
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Reports> Reports { get; set; }
         public DbSet<Contract> Contracts { get; set; }

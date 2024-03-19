@@ -35,8 +35,8 @@ namespace FinalProject.Domain.Models.ApplicationUserModel
         public decimal? HourlyRate { get; set; }
         public int? Age { get; set; }
         public int? ZIP { get; set; }
-        public int? CodePhone { get; set; }
-        public string? Address { get; set; }
+        public string? CodePhone { get; set; }
+        
 
         [DisplayName("LinkedIn URl")]
         public string? PortfolioURl { get; set; }
@@ -45,11 +45,14 @@ namespace FinalProject.Domain.Models.ApplicationUserModel
         public string? ActiveOrNot { get; set; }
         [DefaultValue(false)]
         public bool IsDeleted { get; set; }
-
         //Country
-        [ForeignKey("Country")]
-        public int CountryId { get; set; }
-        public Country  Country { get; set; }
+        public string? Country { get; set; }
+        public string? State { get; set; }
+        public string? Address { get; set; } // City
+
+        //[ForeignKey("Country")]
+        //public int CountryId { get; set; }
+        //public Country  Country { get; set; }
 
         //Language
         [DisplayName("Langauges")]
