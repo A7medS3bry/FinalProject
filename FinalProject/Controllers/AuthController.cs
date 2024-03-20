@@ -14,7 +14,8 @@ using UserMangmentService.Service;
 
 namespace FinalProject.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("/[controller]")]
+    [Route("/")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -169,8 +170,11 @@ namespace FinalProject.Controllers
             if (user != null)
             {
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                //var ForgotPasswordlink = Url.Action(nameof(ResetPassword), "Auth", new { token, email = user.Email }, Request.Scheme);
                 var ForgotPasswordlink = Url.Action(nameof(ResetPassword), "Auth", new { token, email = user.Email }, Request.Scheme);
+                //var message = new UserMangmentService.Models.Message(new string[] { user.Email! }, "Reset Password", ForgotPasswordlink!);
                 var message = new UserMangmentService.Models.Message(new string[] { user.Email! }, "Reset Password", ForgotPasswordlink!);
+
                 _emailService.SendEmail(message);
                 var resetPasswordModel = new ResetPasswordModel { Token = token, Email = user.Email };
 
@@ -183,7 +187,9 @@ namespace FinalProject.Controllers
             }
         }
 
-        [HttpGet("Genrat-Token-Reset-Password")]
+        [HttpGet("resetPassword")]
+        //[HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> ResetPassword(string token, string email)
         {
             var model = new ResetPasswordModel { Token = token, Email = email };
@@ -192,7 +198,7 @@ namespace FinalProject.Controllers
         }
 
         [HttpPost]
-        [Route("Reset-Password")]
+        [Route("resetPassword")]
         [AllowAnonymous]
         public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
         {
