@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using NETCore.MailKit.Core;
 using System.ComponentModel.DataAnnotations;
 using UserMangmentService.Service;
+using static System.Net.WebRequestMethods;
 
 namespace FinalProject.Controllers
 {
@@ -171,8 +172,8 @@ namespace FinalProject.Controllers
             {
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
                 //var ForgotPasswordlink = Url.Action(nameof(ResetPassword), "Auth", new { token, email = user.Email }, Request.Scheme);
-                var ForgotPasswordlink = Url.Action(nameof(ResetPassword), "Auth", new { token, email = user.Email }, Request.Scheme);
-                //var message = new UserMangmentService.Models.Message(new string[] { user.Email! }, "Reset Password", ForgotPasswordlink!);
+                //var ForgotPasswordlink = Url.Action(nameof(ResetPassword), "Auth", new { token, email = user.Email }, Request.Scheme);
+                var ForgotPasswordlink = $"http://localhost:3000/resetPassword?token={token}&email={user.Email}";
                 var message = new UserMangmentService.Models.Message(new string[] { user.Email! }, "Reset Password", ForgotPasswordlink!);
 
                 _emailService.SendEmail(message);
@@ -230,7 +231,8 @@ namespace FinalProject.Controllers
             if (user != null)
             {
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var resetPasswordLink = Url.Action(nameof(ResetPassword), "Auth", new { token, email = user.Email }, Request.Scheme);
+                //var resetPasswordLink = Url.Action(nameof(ResetPassword), "Auth", new { token, email = user.Email }, Request.Scheme);
+                var resetPasswordLink = $"http://localhost:3000/resetPassword?token={token}&email={user.Email}";
                 var message = new UserMangmentService.Models.Message(new string[] { user.Email! }, "Reset Password", resetPasswordLink!);
                 _emailService.SendEmail(message);
 
