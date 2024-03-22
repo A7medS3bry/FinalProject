@@ -35,7 +35,19 @@ namespace UserMangmentService.Service
             emailMessage.Subject = message.Subject;
 
             var builder = new BodyBuilder();
-            builder.HtmlBody = $"<p>Please, Click in Link <p><p>{message.Content}</p><p>Thank you!</p>";
+            //builder.HtmlBody = $"<div style=\"background-color: #f0f0f0; font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\"><div style=\"background-color: #007bff; color: #ffffff; padding: 10px; text-align: center; border-top-left-radius: 10px; border-top-right-radius: 10px; font-size: 18px;\">Email From TaskAsync</div><div style=\"color: black; padding: 20px; font-size: 16px; text-align: center;\"><p><b>Thank You For Using TaskAsync.</b></p><p style=\"margin-top: 20px;\"><a href=\"{message.Content}\" style=\"background-color: #007bff; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px;\">Click Here</a></p></div></div>";
+            builder.HtmlBody = $@"
+                    <div style=""background-color: #f0f0f0; font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);"">
+                        <div style=""background-color: #007bff; color: #ffffff; padding: 10px; text-align: center; border-top-left-radius: 10px; border-top-right-radius: 10px; font-size: 18px;"">TaskAsync</div>
+                        <div style=""color: black; padding: 20px; font-size: 16px;"">
+                            <p>Hello,</p>
+                            <p>Thanks for your interest in TaskAsync!</p>
+                            <p style=""text-align: center;""><a href=""{message.Content}"" style=""background-color: #007bff; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px;"">click Here</a></p>
+                            <p>We will notify you of our decision by email within 24 hours.</p>
+                            <p>Thanks for your time,</p>
+                            <p>The TaskAsync Team</p>
+                        </div>
+                    </div>";
 
             emailMessage.Body = builder.ToMessageBody();
 
