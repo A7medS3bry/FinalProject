@@ -23,11 +23,22 @@ namespace UserMangmentService.Service
 
         private MimeMessage CreateEmailMessage(Message message)
         {
+            //var emailMessage = new MimeMessage();
+            //emailMessage.From.Add(new MailboxAddress("email", _emailConfig.From));
+            //emailMessage.To.AddRange(message.To);
+            //emailMessage.Subject = message.Subject;
+            //emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Text) { Text = message.Content };
+            //return emailMessage;
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress("email", _emailConfig.From));
+            emailMessage.From.Add(new MailboxAddress("TaskAsync", _emailConfig.From));
             emailMessage.To.AddRange(message.To);
             emailMessage.Subject = message.Subject;
-            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Text) { Text = message.Content };
+
+            var builder = new BodyBuilder();
+            builder.HtmlBody = $"<p>Please, Click in Link <p><p>{message.Content}</p><p>Thank you!</p>";
+
+            emailMessage.Body = builder.ToMessageBody();
+
             return emailMessage;
         }
 
