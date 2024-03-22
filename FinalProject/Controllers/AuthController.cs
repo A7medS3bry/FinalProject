@@ -51,6 +51,7 @@ namespace FinalProject.Controllers
             var user = await _userManager.FindByEmailAsync(result.Email);
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var confirmationLink = Url.Action(nameof(ConfirmEmail), "Auth", new { token, email = user.Email }, Request.Scheme);
+            //host 3000
             var message = new UserMangmentService.Models.Message(new string[] { user.Email! }, "Email Confirmation", confirmationLink!);
             _emailService.SendEmail(message);
 
@@ -79,7 +80,9 @@ namespace FinalProject.Controllers
 
             var user = await _userManager.FindByEmailAsync(result.Email);
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var confirmationLink = Url.Action(nameof(ConfirmEmail), "Auth", new { token, email = user.Email }, Request.Scheme);
+            //var confirmationLink = Url.Action(nameof(ConfirmEmail), "Auth", new { token, email = user.Email }, Request.Scheme);
+            var confirmationLink = $"http://localhost:3000/congratulation?token={token}&email={user.Email}";
+            //host 3000
             var message = new UserMangmentService.Models.Message(new string[] { user.Email! }, "Email Confirmation", confirmationLink!);
             _emailService.SendEmail(message);
 
@@ -125,7 +128,9 @@ namespace FinalProject.Controllers
                 }
 
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                var confirmationLink = Url.Action(nameof(ConfirmEmail), "Auth", new { token, email = user.Email }, Request.Scheme);
+                //var confirmationLink = Url.Action(nameof(ConfirmEmail), "Auth", new { token, email = user.Email }, Request.Scheme);
+                var confirmationLink = $"http://localhost:3000/congratulation?token={token}&email={user.Email}";
+
                 var message = new UserMangmentService.Models.Message(new string[] { user.Email! }, "Email Confirmation", confirmationLink!);
                 _emailService.SendEmail(message);
                 return Ok($"Link For Email Confirmation Sended To Your Email: {user.Email}");
@@ -148,8 +153,12 @@ namespace FinalProject.Controllers
 
             var user = await _userManager.FindByEmailAsync(model.Email);
 
-            if (user != null && user.EmailConfirmed)
+            if (user != null)
             {
+                if (!user.EmailConfirmed)
+                {
+                    return BadRequest("Email not confirmed");
+                }
                 var result = await _authService.GetTokenAsync(model);
                 if (result.IsAuthenticated == false)
                 {
@@ -159,7 +168,7 @@ namespace FinalProject.Controllers
             }
             else
             {
-                return BadRequest("Email not confirmed");
+                return BadRequest("Email not Sign Up");
             }
         }
 
@@ -171,7 +180,6 @@ namespace FinalProject.Controllers
             if (user != null)
             {
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                //var ForgotPasswordlink = Url.Action(nameof(ResetPassword), "Auth", new { token, email = user.Email }, Request.Scheme);
                 //var ForgotPasswordlink = Url.Action(nameof(ResetPassword), "Auth", new { token, email = user.Email }, Request.Scheme);
                 var ForgotPasswordlink = $"http://localhost:3000/resetPassword?token={token}&email={user.Email}";
                 var message = new UserMangmentService.Models.Message(new string[] { user.Email! }, "Reset Password", ForgotPasswordlink!);
