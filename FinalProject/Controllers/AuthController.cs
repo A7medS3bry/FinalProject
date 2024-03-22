@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NETCore.MailKit.Core;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Encodings.Web;
 using UserMangmentService.Service;
 using static System.Net.WebRequestMethods;
 
@@ -81,7 +82,11 @@ namespace FinalProject.Controllers
             var user = await _userManager.FindByEmailAsync(result.Email);
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             //var confirmationLink = Url.Action(nameof(ConfirmEmail), "Auth", new { token, email = user.Email }, Request.Scheme);
-            var confirmationLink = $"http://localhost:3000/congratulation?token={token}&email={user.Email}";
+            //var confirmationLink = $"http://localhost:3000/congratulation?token={token}&email={user.Email}";
+            var urlEncoder = UrlEncoder.Default;
+            var encodedToken = urlEncoder.Encode(token);
+            var confirmationLink = $"http://localhost:3000/congratulation?token={encodedToken}&email={user.Email}";
+
             //host 3000
             var message = new UserMangmentService.Models.Message(new string[] { user.Email! }, "Email Confirmation", confirmationLink!);
             _emailService.SendEmail(message);
@@ -129,11 +134,18 @@ namespace FinalProject.Controllers
 
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 //var confirmationLink = Url.Action(nameof(ConfirmEmail), "Auth", new { token, email = user.Email }, Request.Scheme);
-                var confirmationLink = $"http://localhost:3000/congratulation?token={token}&email={user.Email}";
+                //var confirmationLink = Url.Action(nameof(ConfirmEmail), "Auth", new { token, email = user.Email }, Request.Scheme);
+                //var confirmationLink = $"http://localhost:5238/Confirm-Email?token={token}&email={user.Email}";
+                //var confirmationLink = $"http://localhost:3000/congratulation?token={token}&email={user.Email}";
+                var urlEncoder = UrlEncoder.Default;
+                var encodedToken = urlEncoder.Encode(token);
+                var confirmationLink = $"http://localhost:3000/congratulation?token={encodedToken}&email={user.Email}";
 
                 var message = new UserMangmentService.Models.Message(new string[] { user.Email! }, "Email Confirmation", confirmationLink!);
                 _emailService.SendEmail(message);
-                return Ok($"Link For Email Confirmation Sended To Your Email: {user.Email}");
+
+                //return Ok($"Link For Email Confirmation Sended To Your Email: {user.Email}");
+                return Ok(token);
             }
             else
             {
