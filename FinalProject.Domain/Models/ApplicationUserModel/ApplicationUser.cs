@@ -35,7 +35,7 @@ namespace FinalProject.Domain.Models.ApplicationUserModel
         public decimal? HourlyRate { get; set; }
         public int? Age { get; set; }
         public int? ZIP { get; set; }
-        public string? CodePhone { get; set; }
+        //public string? CodePhone { get; set; }
         
 
         [DisplayName("LinkedIn URl")]

@@ -5,11 +5,15 @@
 namespace FinalProject.Migrations
 {
     /// <inheritdoc />
-    public partial class T : Migration
+    public partial class AlterSateteAndCountry : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "CodePhone",
+                table: "AspNetUsers");
+
             migrationBuilder.AlterColumn<string>(
                 name: "State",
                 table: "AspNetUsers",
@@ -49,6 +53,12 @@ namespace FinalProject.Migrations
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
+
+            migrationBuilder.AddColumn<int>(
+                name: "CodePhone",
+                table: "AspNetUsers",
+                type: "int",
+                nullable: true);
         }
     }
 }

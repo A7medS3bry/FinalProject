@@ -39,9 +39,6 @@ namespace FinalProject.Migrations
                     b.Property<int?>("Age")
                         .HasColumnType("int");
 
-                    b.Property<string>("CodePhone")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -170,7 +167,7 @@ namespace FinalProject.Migrations
 
                     b.HasIndex("JobpostId");
 
-                    b.ToTable("Favorites", (string)null);
+                    b.ToTable("Favorites");
                 });
 
             modelBuilder.Entity("FinalProject.Domain.Models.JobPostAndContract.ApplyTask", b =>
@@ -226,7 +223,7 @@ namespace FinalProject.Migrations
 
                     b.HasIndex("JobPostId");
 
-                    b.ToTable("ApplyTasks", (string)null);
+                    b.ToTable("ApplyTasks");
                 });
 
             modelBuilder.Entity("FinalProject.Domain.Models.JobPostAndContract.Contract", b =>
@@ -284,7 +281,7 @@ namespace FinalProject.Migrations
 
                     b.HasIndex("JopPostId");
 
-                    b.ToTable("Contracts", (string)null);
+                    b.ToTable("Contracts");
                 });
 
             modelBuilder.Entity("FinalProject.Domain.Models.JobPostAndContract.JobPost", b =>
@@ -331,7 +328,7 @@ namespace FinalProject.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("JobPosts", (string)null);
+                    b.ToTable("JobPosts");
                 });
 
             modelBuilder.Entity("FinalProject.Domain.Models.JobPostAndContract.JobPostSkill", b =>
@@ -346,7 +343,7 @@ namespace FinalProject.Migrations
 
                     b.HasIndex("JobPostId");
 
-                    b.ToTable("JobPostSkill", (string)null);
+                    b.ToTable("JobPostSkill");
                 });
 
             modelBuilder.Entity("FinalProject.Domain.Models.NotificationAndMessageModel.Notification", b =>
@@ -391,7 +388,7 @@ namespace FinalProject.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notifications", (string)null);
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("FinalProject.Domain.Models.ProtfolioModle.Protfolio", b =>
@@ -429,7 +426,7 @@ namespace FinalProject.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Protfolios", (string)null);
+                    b.ToTable("Protfolios");
                 });
 
             modelBuilder.Entity("FinalProject.Domain.Models.RatingModel.Review", b =>
@@ -482,7 +479,7 @@ namespace FinalProject.Migrations
 
                     b.HasIndex("FreelancerId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("FinalProject.Domain.Models.RegisterNeeded.ApplicationUserLanguage", b =>
@@ -497,7 +494,7 @@ namespace FinalProject.Migrations
 
                     b.HasIndex("LanguageValue");
 
-                    b.ToTable("ApplicationUserLanguages", (string)null);
+                    b.ToTable("ApplicationUserLanguages");
                 });
 
             modelBuilder.Entity("FinalProject.Domain.Models.RegisterNeeded.Language", b =>
@@ -514,7 +511,7 @@ namespace FinalProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Languages", (string)null);
+                    b.ToTable("Languages");
                 });
 
             modelBuilder.Entity("FinalProject.Domain.Models.ReportModel.Reports", b =>
@@ -555,7 +552,7 @@ namespace FinalProject.Migrations
 
                     b.HasIndex("FreelancerId");
 
-                    b.ToTable("Reports", (string)null);
+                    b.ToTable("Reports");
                 });
 
             modelBuilder.Entity("FinalProject.Domain.Models.SkillAndCat.Category", b =>
@@ -575,7 +572,7 @@ namespace FinalProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("FinalProject.Domain.Models.SkillAndCat.Skill", b =>
@@ -596,7 +593,7 @@ namespace FinalProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Skills", (string)null);
+                    b.ToTable("Skills");
                 });
 
             modelBuilder.Entity("FinalProject.Domain.Models.SkillAndCat.SkillCategory", b =>
@@ -611,7 +608,7 @@ namespace FinalProject.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("SkillCategory", (string)null);
+                    b.ToTable("SkillCategory");
                 });
 
             modelBuilder.Entity("FinalProject.Domain.Models.SkillAndCat.UserSkill", b =>
@@ -626,7 +623,7 @@ namespace FinalProject.Migrations
 
                     b.HasIndex("SkillId");
 
-                    b.ToTable("UserSkill", (string)null);
+                    b.ToTable("UserSkill");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

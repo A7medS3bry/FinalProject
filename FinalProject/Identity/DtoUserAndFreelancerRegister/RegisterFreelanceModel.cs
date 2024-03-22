@@ -18,8 +18,8 @@ namespace FinalProject.Identity.DtoUserAndFreelancerRegister
         public string ConfirmPassword { get; set; }
         [Required]
         public List<string>? SelectedLanguages { get; set; }
-        [Required]
-        public string? Phonecode { get; set; }
+        //[Required]
+        //public string? Phonecode { get; set; }
 
         [Required]
         public string? PhoneNumber { get; set; }

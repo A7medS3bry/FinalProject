@@ -86,7 +86,7 @@ namespace FinalProject.Controllers
                 Username = user.UserName,
                 Email = user.Email,
                 SelectedLanguages = user.UserLanguages?.Select(lang => lang.Language.Value).ToList(),
-                PhoneNumber = user.CodePhone +" "+ user.PhoneNumber,
+                PhoneNumber =user.PhoneNumber,
                 Age = user.Age,
                 YourTitle = user.YourTitle,
                 Description = user.Description,
@@ -223,7 +223,7 @@ namespace FinalProject.Controllers
             var user = await _userManager.FindByIdAsync(userIdClaim.Value);
 
             user.PhoneNumber = model.PhoneNumber;
-            user.CodePhone = model.CodePhone;
+            //user.CodePhone = model.CodePhone;
 
             var updateResult = await _userManager.UpdateAsync(user);
 

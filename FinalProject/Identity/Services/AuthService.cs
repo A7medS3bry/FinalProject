@@ -108,11 +108,11 @@ namespace FinalProject.Identity.Services
                     authModel.Message = $"Address Required";
                     return authModel;
                 }
-                if (model.Phonecode == null)
-                {
-                    authModel.Message = $"Phonecode Required";
-                    return authModel;
-                }
+                //if (model.Phonecode == null)
+                //{
+                //    authModel.Message = $"Phonecode Required";
+                //    return authModel;
+                //}
                 if (model.PhoneNumber == null)
                 {
                     authModel.Message = $"PhoneNumber Required";
@@ -153,7 +153,7 @@ namespace FinalProject.Identity.Services
                     Country = model.Country ,
                     State = model.State,
                     Address = model.Address,
-                    CodePhone = model.Phonecode,
+                    //CodePhone = model.Phonecode,
                     PhoneNumber = model.PhoneNumber,
                     Age = model.Age,
                     UserLanguages = UserLanguages,
